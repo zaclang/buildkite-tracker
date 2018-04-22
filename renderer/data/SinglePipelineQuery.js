@@ -10,7 +10,15 @@ const QUERY = gql`
       builds(first:1) {
         edges {
           node {
+            id
             state
+            createdBy {
+              ... on User {
+                id
+                email
+                name
+              }
+            }
           }
         }
       }

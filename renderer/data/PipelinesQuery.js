@@ -23,10 +23,11 @@ const PipelinesQuery = props => props.children(props.data);
 
 export default graphql(QUERY, {
   options: ({ slug }) => ({ variables: { slug } }),
-  props: ({ data }) => {
+  props: ({ data: { loading, organization } }) => {
     return {
       data: {
-        pipelines: get(data, 'organization.pipelines.edges', [])
+        loading,
+        pipelines: get(organization, 'pipelines.edges', [])
       }
     };
   }

@@ -1,24 +1,37 @@
+import React from 'react';
 import { Row, Col, Alert } from 'antd';
 import SinglePipelineQuery from '../../data/SinglePipelineQuery';
 import Build from '../Build';
+import User from '../User';
+import './style.css';
 
-const PipelinesList = ({ slug, pipelines, loading }) => {
-  console.log({loading})
-  return pipelines.map(({ node }) =>
-    <SinglePipelineQuery slug={`${slug}/${node.slug}`}>
+const PipelinesList = ({ slug, pipelines }) =>
+  pipelines.map(({ node }) =>
+    <SinglePipelineQuery
+      key={node.id}
+      slug={`${slug}/${node.slug}`}
+    >
       {
         ({ pipeline, builds }) =>
-          <Row>
-            <Col span={12}>{pipeline.name}</Col>
+          <Row type='flex' justify='center' className='row'>
             <Col span={12}>
-              {
-                builds.map(({ node }) => <Build {...node} />)
-              }
+              <span className='content'>{ pipeline.name }</span>
             </Col>
+            {
+              builds.map(({ node }) =>
+                <React.Fragment key={node.id}>
+                  <Col span={6}>
+                    <User className='content' { ...node.createdBy } />
+                  </Col>
+                  <Col span={6}>
+                    <Build state={node.state} />
+                  </Col>
+                </React.Fragment>
+              )
+            }
           </Row>
       }
     </SinglePipelineQuery>
   );
-};
 
 export default PipelinesList;
