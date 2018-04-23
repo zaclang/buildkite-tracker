@@ -30,6 +30,7 @@ const pipeline = ({ slug, children }) => {
     <Query
       query={PIPELINE_QUERY}
       variables={{ slug }}
+      pollInterval={30000}
     >
       { children }
     </Query>

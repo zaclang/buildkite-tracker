@@ -10,19 +10,16 @@ import PipelinesList from '../components/PipelinesList';
 import './style.css';
 
 const screenElectron = electron.screen.getPrimaryDisplay();
-
 const { publicRuntimeConfig } = getConfig();
-
 
 const app = () => (
   <Organization slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}>
     {
-      ({ loading, data: { organization } }) => {
-        return <PipelinesList
+      ({ loading, data: { organization } }) =>
+        <PipelinesList
           slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}
           pipelines={get(organization, 'pipelines.edges', [])}
         />
-      }
     }
   </Organization>
 );
