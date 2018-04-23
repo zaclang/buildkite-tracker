@@ -10,6 +10,7 @@ const PIPELINE_QUERY = gql`
         edges {
           node {
             id
+            url
             state
             createdBy {
               ... on User {

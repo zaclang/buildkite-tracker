@@ -1,4 +1,6 @@
+import React from 'react';
 import { Alert } from 'antd';
+import { shell } from 'electron';
 
 const Build = ({ state }) => {
   let type;
@@ -33,11 +35,13 @@ const Build = ({ state }) => {
   }
 
   return (
+    <div onClick={() => shell.openExternal(url)}>
     <Alert
       message={state}
       type={type}
       showIcon
     />
+    </div>
   );
 };
 

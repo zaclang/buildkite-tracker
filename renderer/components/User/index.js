@@ -1,6 +1,6 @@
-const User = ({ name, ...rest }) => {
+const User = ({ name, avatar }) => {
   return (
-    <div {...rest}>
+    <div>
       { name }
     </div>
   );
