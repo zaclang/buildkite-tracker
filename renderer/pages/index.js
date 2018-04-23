@@ -1,27 +1,30 @@
 import electron from 'electron';
 import getConfig from 'next/config'
 import { Spin } from 'antd';
+import get from 'lodash.get';
+
+import Organization from '../data/Organization';
 import withData from '../lib/withData';
-import PipelinesQuery from '../data/PipelinesQuery';
 import PipelinesList from '../components/PipelinesList';
+
 import './style.css';
 
-var screenElectron = electron.screen.getPrimaryDisplay();
+const screenElectron = electron.screen.getPrimaryDisplay();
 
 const { publicRuntimeConfig } = getConfig();
 
+
 const app = () => (
-  <PipelinesQuery slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}>
+  <Organization slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}>
     {
-      ({ pipelines, loading }) =>
-        <Spin style={{ height: screenElectron.bounds.height }} size='large' spinning={loading}>
-          <PipelinesList
-            slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}
-            pipelines={pipelines}
-          />
-        </Spin>
+      ({ loading, data: { organization } }) => {
+        return <PipelinesList
+          slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}
+          pipelines={get(organization, 'pipelines.edges', [])}
+        />
+      }
     }
-  </PipelinesQuery>
+  </Organization>
 );
 
 export default withData(app);

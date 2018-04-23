@@ -1,37 +1,44 @@
 import React from 'react';
 import { Row, Col, Alert } from 'antd';
-import SinglePipelineQuery from '../../data/SinglePipelineQuery';
+import get from 'lodash.get';
+import Pipeline from '../../data/Pipeline';
 import Build from '../Build';
 import User from '../User';
+
 import './style.css';
 
-const PipelinesList = ({ slug, pipelines }) =>
-  pipelines.map(({ node }) =>
-    <SinglePipelineQuery
-      key={node.id}
-      slug={`${slug}/${node.slug}`}
+const PipelinesList = ({ slug, pipelines }) => {
+  return pipelines.map(({ node: pipeline }) =>
+    <Pipeline
+      key={pipeline.id}
+      slug={`${slug}/${pipeline.slug}`}
     >
       {
-        ({ pipeline, builds }) =>
-          <Row type='flex' justify='center' className='row'>
-            <Col span={12}>
-              <span className='content'>{ pipeline.name }</span>
-            </Col>
-            {
-              builds.map(({ node }) =>
-                <React.Fragment key={node.id}>
-                  <Col span={6}>
-                    <User className='content' { ...node.createdBy } />
-                  </Col>
-                  <Col span={6}>
-                    <Build state={node.state} />
-                  </Col>
-                </React.Fragment>
-              )
-            }
-          </Row>
+        ({ loading, data: { pipeline = {} } }) => {
+          return (
+            <Row type='flex' justify='center' className='row'>
+              <Col span={12}>
+                <span className='content'>{pipeline.name}</span>
+              </Col>
+              {
+                get(pipeline, 'builds.edges', []).map(({ node: build }) => {
+                  return (
+                    <React.Fragment key={build.id} style={{ background: 'red' }}>
+                      <Col span={6}>
+                        <User className='content' {...build.createdBy} />
+                      </Col>
+                      <Col span={6}>
+                        <Build state={build.state} />
+                      </Col>
+                    </React.Fragment>
+                  )
+                })
+              }
+            </Row>
+          );
+        }
       }
-    </SinglePipelineQuery>
-  );
+    </Pipeline>
+  )};
 
 export default PipelinesList;
