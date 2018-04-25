@@ -1,8 +1,8 @@
-import React from 'react';
 import { Alert } from 'antd';
 import { shell } from 'electron';
+import styles from './style.css';
 
-const Build = ({ state }) => {
+const Build = ({ state, url }) => {
   let type;
 
   switch (state) {
@@ -35,12 +35,15 @@ const Build = ({ state }) => {
   }
 
   return (
-    <div onClick={() => shell.openExternal(url)}>
-    <Alert
-      message={state}
-      type={type}
-      showIcon
-    />
+    <div
+      className='container'
+      onClick={() => shell.openExternal(url)}
+    >
+      <Alert
+        message={state}
+        type={type}
+        showIcon
+      />
     </div>
   );
 };

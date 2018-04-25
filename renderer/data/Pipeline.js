@@ -19,6 +19,8 @@ const PIPELINE_QUERY = gql`
                 name
               }
             }
+            createdAt
+            finishedAt
           }
         }
       }
