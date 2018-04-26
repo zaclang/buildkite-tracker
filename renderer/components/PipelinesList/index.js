@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Alert } from 'antd';
 import get from 'lodash.get';
 import { distanceInWordsStrict } from 'date-fns'
+import { Spin } from 'antd';
 
 import Pipeline from '../../data/Pipeline';
 import Build from '../Build';
@@ -36,12 +37,6 @@ const PipelinesList = ({ slug, pipelines }) => {
                   return (
                     <React.Fragment key={build.id}>
                       <Col span={4}>
-                        <User
-                          className='content'
-                          {...build.createdBy}
-                        />
-                      </Col>
-                      <Col span={4}>
                         <Build
                           state={build.state}
                           url={build.url}
@@ -49,20 +44,27 @@ const PipelinesList = ({ slug, pipelines }) => {
                       </Col>
                       <Col span={4}>
                         <div className='content'>
-                          { build.finishedAt ?
+                          { build.finishedAt &&
                             <React.Fragment>
                               { distanceInWordsStrict(build.finishedAt, new Date()) }
                               <span> ago</span>
                             </React.Fragment>
-                            : '?'}
+                          }
                         </div>
                       </Col>
                       <Col span={4}>
                         <div className='content'>
-                          {
-                            distanceInWordsStrict(build.createdAt, build.finishedAt || new Date())
+                          { build.finishedAt ?
+                            <span>ran for {distanceInWordsStrict(build.createdAt, build.finishedAt || new Date())}</span>
+                            : <Spin size='small' />
                           }
                         </div>
+                      </Col>
+                      <Col span={4}>
+                        <User
+                          className='content'
+                          {...build.createdBy}
+                        />
                       </Col>
                     </React.Fragment>
                   );
