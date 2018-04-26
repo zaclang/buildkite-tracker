@@ -36,7 +36,7 @@ const Build = ({ state, url }) => {
 
   return (
     <div
-      className='container'
+      className='link'
       onClick={() => shell.openExternal(url)}
     >
       <Alert

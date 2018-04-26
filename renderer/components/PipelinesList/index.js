@@ -9,14 +9,18 @@ import User from '../User';
 
 import './style.css';
 
-const PipelinesList = ({ slug, pipelines }) =>
-  pipelines.map(({ node }) =>
-    <Pipeline
+const PipelinesList = ({ slug, pipelines }) => {
+  return <Col className='container'>
+  {pipelines.map(({ node }) => {
+    return <Pipeline
       key={node.id}
       slug={`${slug}/${node.slug}`}
     >
       {
-        ({ loading, data: { pipeline } }) =>
+        ({ loading, data: { pipeline } }) => {
+          const builds = get(pipeline, 'builds.edges', []);
+
+          return builds.length > 0 && (
             <Row
               type='flex'
               justify='center'
@@ -28,7 +32,7 @@ const PipelinesList = ({ slug, pipelines }) =>
                 </div>
               </Col>
               {
-                get(pipeline, 'builds.edges', []).map(({ node: build }) => {
+                builds.map(({ node: build }) => {
                   return (
                     <React.Fragment key={build.id}>
                       <Col span={4}>
@@ -45,13 +49,12 @@ const PipelinesList = ({ slug, pipelines }) =>
                       </Col>
                       <Col span={4}>
                         <div className='content'>
-                          {
-                            build.finishedAt &&
-                              <React.Fragment>
-                                { distanceInWordsStrict(build.finishedAt, new Date()) }
-                                <span> ago</span>
-                              </React.Fragment>
-                          }
+                          { build.finishedAt ?
+                            <React.Fragment>
+                              { distanceInWordsStrict(build.finishedAt, new Date()) }
+                              <span> ago</span>
+                            </React.Fragment>
+                            : '?'}
                         </div>
                       </Col>
                       <Col span={4}>
@@ -66,8 +69,12 @@ const PipelinesList = ({ slug, pipelines }) =>
                 })
               }
             </Row>
+          )}
       }
     </Pipeline>
-  );
+  })
+}
+</Col>
+}
 
 export default PipelinesList;

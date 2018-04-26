@@ -15,11 +15,18 @@ const { publicRuntimeConfig } = getConfig();
 const app = () => (
   <Organization slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}>
     {
-      ({ loading, data: { organization } }) =>
-        <PipelinesList
-          slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}
-          pipelines={get(organization, 'pipelines.edges', [])}
-        />
+      ({ loading, data: { organization } }) => {
+        if (loading) {
+          return <Spin size='large' />;
+        }
+
+        return (
+          <PipelinesList
+            slug={publicRuntimeConfig.BUILDKITE_ORG_SLUG}
+            pipelines={get(organization, 'pipelines.edges', [])}
+          />
+        )
+      }
     }
   </Organization>
 );
