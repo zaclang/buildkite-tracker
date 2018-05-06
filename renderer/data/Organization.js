@@ -5,11 +5,29 @@ const ORGANIZATION_QUERY = gql`
   query($slug: ID!) {
     organization(slug: $slug) {
       id
-      pipelines(first:10) {
+      pipelines(first:99) {
         edges {
           node {
-            id
-            slug
+              id
+              name
+              builds(first:3) {
+                edges {
+                  node {
+                    id
+                    url
+                    state
+                    createdBy {
+                      ... on User {
+                        id
+                        email
+                        name
+                      }
+                    }
+                    createdAt
+                    finishedAt
+                  }
+                }
+              }
           }
         }
       }

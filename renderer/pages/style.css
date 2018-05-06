@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+@import '~react-bubble-chart/src/style.css';
 
 #__next {
   display: flex;
@@ -7,5 +8,7 @@
   align-items: center;
 }
 
-.spinner {
+.bubble-chart-container {
+  height: 100%;
+  width: 100%;
 }

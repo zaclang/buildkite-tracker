@@ -7,6 +7,8 @@ import Organization from '../data/Organization';
 import withData from '../lib/withData';
 import PipelinesList from '../components/PipelinesList';
 
+import BubbleChart from '../components/BubbleChart';
+
 import './style.css';
 
 const screenElectron = electron.screen.getPrimaryDisplay();
@@ -19,6 +21,10 @@ const app = () => (
         if (loading) {
           return <Spin size='large' />;
         }
+
+        return (
+          <BubbleChart data={get(organization, 'pipelines.edges', [])} />
+        );
 
         return (
           <PipelinesList

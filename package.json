@@ -28,6 +28,7 @@
     "apollo-link-error": "^1.0.9",
     "apollo-link-http": "^1.5.4",
     "app-root-path": "^2.0.1",
+    "d3": "^3.5.17",
     "date-fns": "^1.29.0",
     "electron-is-dev": "^0.3.0",
     "electron-next": "^3.1.3",
