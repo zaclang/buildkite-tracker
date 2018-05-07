@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 
 const ORGANIZATION_QUERY = gql`
   query($slug: ID!) {
@@ -35,15 +34,4 @@ const ORGANIZATION_QUERY = gql`
   }
 `;
 
-const Organization = ({ slug, children }) => {
-  return (
-    <Query
-      query={ORGANIZATION_QUERY}
-      variables={{ slug }}
-    >
-      { children }
-    </Query>
-  )
-};
-
-export default Organization;
+export { ORGANIZATION_QUERY };
